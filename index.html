@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rizky Riyadi - Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Zen+Maru+Gothic:wght@500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    :root {
+      --font-main: 'Inter', sans-serif;
+      --font-anime: 'Zen Maru Gothic', sans-serif;
+      --bg: #e8ecef;
+      --text: #121212;
+      --muted: #6b7280;
+      --anime-accent: #264653;
+      --silver-accent: #d8e2dc;
+      --transition: 0.3s ease;
+      --dark-bg: #121212;
+      --dark-text: #e8ecef;
+      --dark-muted: #9ca3af;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+      cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0IiBjeT0iNCIgcj0iNCIgZmlsbD0iI2Q4ZTJkYyIvPjwvc3ZnPg=='), auto;
+    }
+
+    body.dark {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    body.dark a, body.dark nav a {
+      color: var(--dark-text);
+    }
+
+    body.dark .muted, body.dark .coming-soon, body.dark footer {
+      color: var(--dark-muted);
+    }
+
+    body.dark nav a:hover {
+      color: var(--anime-accent);
+    }
+
+    /* Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(38, 70, 83, 0.05), transparent);
+      z-index: -1;
+    }
+
+    /* Vignette Effect */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Particle Background */
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    /* Intro Section */
+    #intro {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #121212, #1e293b, #334155);
+      color: var(--dark-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      opacity: 1;
+      animation: fadeOutIntro 1s ease-out 4s forwards;
+    }
+
+    .intro-brand {
+      text-align: center;
+      position: relative;
+    }
+
+    .intro-brand h1 {
+      font-family: var(--font-anime);
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 8px var(--silver-accent);
+    }
+
+    .intro-brand p {
+      font-family: var(--font-main);
+      font-size: 1.2rem;
+      color: var(--dark-muted);
+    }
+
+    .line-art {
+      position: absolute;
+      bottom: 15%;
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--silver-accent), transparent);
+      box-shadow: 0 0 5px var(--silver-accent);
+      animation: lineArtFlow 4s linear infinite;
+    }
+
+    @keyframes lineArtFlow {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .scanner-line {
+      width: 120px;
+      height: 2px;
+      background: var(--silver-accent);
+      margin: 1.5rem auto 0;
+    }
+
+    @keyframes fadeOutIntro {
+      to { opacity: 0; visibility: hidden; filter: blur(5px); }
+    }
+
+    /* Container */
+    #container {
+      display: flex;
+      opacity: 0;
+      visibility: hidden;
+      animation: fadeIn 1s 4.5s forwards ease-in;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; visibility: visible; }
+    }
+
+    /* Dark Mode Toggle */
+    .dark-toggle {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      transition: all 0.3s;
+      z-index: 10;
+    }
+
+    .dark-toggle:hover {
+      background: rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 8px var(--silver-accent);
+    }
+
+    body.dark .dark-toggle {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Sidebar */
+    aside {
+      width: 200px;
+      padding: 2rem 1rem;
+      background: white;
+      border-right: 1px solid #e5e5e5;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.02);
+    }
+
+    body.dark aside {
+      background: #1e293b;
+      border-color: #374151;
+    }
+
+    nav ul {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+
+    nav li {
+      margin-bottom: 0.8rem;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-family: var(--font-main);
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: -2px;
+      left: 0;
+      background: var(--silver-accent);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    nav a:hover {
+      color: var(--anime-accent);
+    }
+
+    nav a:hover::before {
+      content: '✨';
+      position: absolute;
+      left: -15px;
+      opacity: 0.5;
+      font-size: 0.8rem;
+    }
+
+    .social-icons a {
+      margin: 0 0.4rem;
+      font-size: 1rem;
+      color: var(--muted);
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.2);
+      color: var(--silver-accent);
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      padding: 3rem;
+    }
+
+    h2 {
+      font-family: var(--font-anime);
+      font-size: 1.8rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: var(--anime-accent);
+      letter-spacing: 1px;
+    }
+
+    .projects {
+      margin-top: 1.5rem;
+    }
+
+    .project {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+
+    body.dark .project {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .project:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 10px var(--silver-accent);
+    }
+
+    .project::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      transition: border-color 0.3s;
+    }
+
+    .project:hover::before {
+      border-color: var(--silver-accent);
+      opacity: 0.3;
+    }
+
+    .project img {
+      width: 120px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--anime-accent);
+      transition: transform 0.3s, filter 0.3s;
+    }
+
+    .project:hover img {
+      transform: scale(1.05);
+      filter: grayscale(50%) sepia(10%) hue-rotate(180deg);
+    }
+
+    .project-title {
+      font-family: var(--font-anime);
+      font-weight: 600;
+      font-size: 1.2rem;
+      animation: faintPulse 5s ease-in-out infinite;
+    }
+
+    @keyframes faintPulse {
+      50% { opacity: 0.9; }
+    }
+
+    .coming-soon {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .quote {
+      margin: 2.5rem 0;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 1rem;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .quote::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--anime-accent);
+      border-radius: 5px;
+      animation: borderFlow 4s linear infinite;
+    }
+
+    @keyframes borderFlow {
+      0% { clip-path: inset(0 100% 0 0); }
+      25% { clip-path: inset(0 0 0 0); }
+      50% { clip-path: inset(100% 0 0 0); }
+      75% { clip-path: inset(0 0 0 100%); }
+      100% { clip-path: inset(0 100% 0 0); }
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    @media screen and (max-width: 768px) {
+      #container {
+        flex-direction: column;
+      }
+
+      aside {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 1.5rem;
+      }
+
+      body.dark aside {
+        border-color: #374151;
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      .project img {
+        width: 80px;
+        height: 60px;
+      }
+
+      .intro-brand h1 {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <div id="intro">
+    <div class="intro-brand">
+      <h1>Rizky Riyadi</h1>
+      <p>Software Engineer</p>
+      <div class="scanner-line"></div>
+      <div class="line-art"></div>
+    </div>
+  </div>
+
+  <div id="container">
+    <aside>
+      <div>
+        <strong style="font-size: 1.3rem;">Rizky Riyadi</strong><br />
+        <span class="muted">Software Engineer</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#greetings">Greetings</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#cv">CV</a></li>
+          <li><a href="mailto:rizkyriady16@gmail.com">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="social-icons">
+        <a href="https://github.com/rizkyriyadi" target="_blank">🐙</a>
+        <a href="https://www.linkedin.com/in/rizky-riyadi-388b56169/" target="_blank">💼</a>
+        <a href="https://rizkyriyadi.github.io/weather-project/#/current-location" target="_blank">🌐</a>
+      </div>
+      <div class="dark-toggle" onclick="toggleDarkMode()">🌙</div>
+    </aside>
+
+    <main>
+      <section id="greetings">
+        <h2>Greetings</h2>
+        <p>I'm Rizky Riyadi, a Software Engineer passionate about crafting scalable and efficient applications. Experienced in microservices, REST APIs, and CI/CD pipelines, I am currently pursuing a Bachelor's degree in Computer Science at Gunadarma University (GPA 3.68).</p>
+      </section>
+
+      <section id="projects" class="projects">
+        <h2>Projects</h2>
+        <div class="project">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Node.js Boilerplate code editor">
+          <div>
+            <div class="project-title">Node.js Boilerplate (Telkomsel)</div>
+            <div class="muted">A Node.js boilerplate with microservices using NestJS, gRPC, and TypeORM, equipped with CI/CD and OpenTelemetry monitoring.</div>
+          </div>
+        </div>
+        <div class="project">
+          <img src="https://images.unsplash.com/photo-1593443320739-6c91b6c1adef" alt="Dynamic Weather Insights app UI">
+          <div>
+            <div class="project-title">Dynamic Weather Insights</div>
+            <div class="muted">A real-time weather website with a responsive interface, built for optimal user experience.</div>
+          </div>
+        </div>
+        <div class="project">
+          <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942e7" alt="CRUD Golang REST API terminal">
+          <div>
+            <div class="project-title">CRUD Golang REST API</div>
+            <div class="muted">A RESTful API built with Golang and Gin, supporting CRUD operations and table relationships.</div>
+          </div>
+        </div>
+        <div class="project">
+          <img src="https://images.unsplash.com/photo-1623479322729-28b25c16b011" alt="Admin Dashboard mockup">
+          <div>
+            <div class="project-title">Admin Dashboard</div>
+            <div class="coming-soon">A responsive admin dashboard prototype built with TypeScript and React.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cv">
+        <h2>CV</h2>
+        <p>Available on request or download via <a href="/mohamadRizkyRIyadi_CV.pdf" download>this link</a>.</p>
+      </section>
+
+      <div class="quote">“Clean architecture creates peace of mind.”</div>
+
+      <footer>
+        © 2025 Rizky Riyadi — All rights reserved. | <a href="mailto:rizkyriady16@gmail.com">Contact</a>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    console.log("Script loaded");
+
+    // Toggle Dark Mode
+    function toggleDarkMode() {
+      console.log("Toggle dark mode");
+      const body = document.body;
+      const toggle = document.querySelector('.dark-toggle');
+      body.classList.toggle('dark');
+      toggle.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
+      gsap.to(toggle, { rotation: 180, duration: 0.5, ease: "power2.out" });
+      gsap.to(toggle, { scale: 1.2, duration: 0.2, yoyo: true, repeat: 1 });
+    }
+
+    // Particle Background
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particlesArray = [];
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 1 + 0.5;
+          this.speedX = Math.random() * 0.08 - 0.04;
+          this.speedY = Math.random() * 0.08 - 0.04;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.size > 0.2) this.size -= 0.008;
+        }
+        draw() {
+          ctx.fillStyle = 'rgba(216, 226, 220, 0.3)';
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function initParticles() {
+        for (let i = 0; i < 10; i++) {
+          particlesArray.push(new Particle());
+        }
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particlesArray.length; i++) {
+          particlesArray[i].update();
+          particlesArray[i].draw();
+          if (particlesArray[i].size <= 0.2) {
+            particlesArray.splice(i, 1);
+            i--;
+            particlesArray.push(new Particle());
+          }
+        }
+        requestAnimationFrame(animateParticles);
+      }
+
+      try {
+        initParticles();
+        animateParticles();
+      } catch (e) {
+        console.error("Particle error:", e);
+      }
+
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    } else {
+      console.warn("Canvas not supported");
+    }
+
+    // GSAP Animations
+    gsap.from(".intro-brand h1", { opacity: 0, scale: 0.9, y: 30, duration: 1.5, ease: "power3.out", delay: 0.5 });
+    gsap.from(".intro-brand p", { opacity: 0, y: 20, duration: 1.2, ease: "power3.out", delay: 0.8 });
+    gsap.from(".scanner-line", { scaleX: 0, opacity: 0, duration: 1.2, ease: "power3.inOut", delay: 2 });
+    gsap.from(".line-art", { opacity: 0, width: 0, duration: 1.5, ease: "power3.out", delay: 1.5 });
+
+    gsap.from("aside strong", { opacity: 0, x: -20, duration: 1, ease: "power3.out", delay: 4.5 });
+    gsap.from("aside .muted", { opacity: 0, x: -20, duration: 1, ease: "power3.out", delay: 4.7 });
+    gsap.from("nav li", { opacity: 0, x: -20, stagger: 0.1, duration: 0.8, ease: "power3.out", delay: 4.9 });
+    gsap.from(".social-icons a", { opacity: 0, y: 10, stagger: 0.1, duration: 0.8, ease: "power3.out", delay: 5.3 });
+
+    gsap.from("#greetings h2", { opacity: 0, y: 30, duration: 1, ease: "power3.out", scrollTrigger: { trigger: "#greetings", start: "top 80%" } });
+    gsap.from("#greetings p", { opacity: 0, y: 20, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: "#greetings", start: "top 80%" } });
+
+    gsap.from("#projects h2", { opacity: 0, y: 30, duration: 1, ease: "power3.out", scrollTrigger: { trigger: "#projects", start: "top 80%" } });
+    gsap.from(".project", { opacity: 0, y: 20, stagger: 0.2, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: "#projects", start: "top 80%" } });
+
+    gsap.from("#cv h2, #cv p", { opacity: 0, y: 20, stagger: 0.2, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: "#cv", start: "top 80%" } });
+    gsap.from(".quote", { opacity: 0, x: 20, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".quote", start: "top 80%" } });
+    gsap.from("footer", { opacity: 0, y: 20, duration: 1, ease: "power3.out", scrollTrigger: { trigger: "footer", start: "top 90%" } });
+
+    // Typewriter Effect
+    const greetingsHeader = document.querySelector("#greetings h2");
+    const text = greetingsHeader.textContent;
+    greetingsHeader.textContent = "";
+    const chars = text.split("");
+    chars.forEach((char, i) => {
+      const span = document.createElement("span");
+      span.textContent = char;
+      span.style.opacity = 0;
+      greetingsHeader.appendChild(span);
+      gsap.to(span, {
+        opacity: 1,
+        duration: 0.1,
+        delay: 0.2 + i * 0.12,
+        ease: "power1.in",
+        scrollTrigger: { trigger: "#greetings", start: "top 80%" }
+      });
+    });
+
+    // Parallax and Lens Flare
+    document.querySelectorAll(".project").forEach(project => {
+      const img = project.querySelector("img");
+      project.addEventListener("mousemove", e => {
+        const rect = project.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(img, { x: x * 0.05, y: y * 0.05, duration: 0.3, ease: "power2.out" });
+      });
+      project.addEventListener("mouseleave", () => {
+        gsap.to(img, { x: 0, y: 0, duration: 0.3, ease: "power2.out" });
+      });
+    });
+
+    // Cursor Trail
+    document.addEventListener("mousemove", e => {
+      const trail = document.createElement("div");
+      trail.style.position = "absolute";
+      trail.style.width = "4px";
+      trail.style.height = "4px";
+      trail.style.background = "rgba(216, 226, 220, 0.3)";
+      trail.style.borderRadius = "50%";
+      trail.style.left = `${e.clientX}px`;
+      trail.style.top = `${e.clientY}px`;
+      trail.style.pointerEvents = "none";
+      document.body.appendChild(trail);
+      gsap.to(trail, {
+        scale: 0,
+        opacity: 0,
+        duration: 0.4,
+        ease: "power2.out",
+        onComplete: () => trail.remove()
+      });
+    });
+
+    // Cursor Glow on Links
+    document.querySelectorAll("a").forEach(link => {
+      link.addEventListener("mouseenter", () => {
+        gsap.to(link, { textShadow: "0 0 5px var(--silver-accent)", duration: 0.3 });
+      });
+      link.addEventListener("mouseleave", () => {
+        gsap.to(link, { textShadow: "none", duration: 0.3 });
+      });
+    });
+
+    // Ensure container visibility
+    setTimeout(() => {
+      const container = document.getElementById('container');
+      container.style.opacity = '1';
+      container.style.visibility = 'visible';
+      console.log("Container forced visible");
+    }, 5000);
+  </script>
+</body>
+</html>
