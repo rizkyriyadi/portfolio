@@ -3,23 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio of Rizky Riyadi, a Software Engineering student exploring microservices, REST APIs, and CI/CD pipelines.">
+  <meta name="keywords" content="Rizky Riyadi, Software Engineer, Portfolio, Node.js, Golang, Microservices, NestJS">
+  <meta name="author" content="Rizky Riyadi">
   <title>Rizky Riyadi - Portfolio</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Zen+Maru+Gothic:wght@500&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/sf-pro-text" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/inter" rel="stylesheet">
   <style>
     :root {
-      --font-main: 'Inter', sans-serif;
-      --font-anime: 'Zen Maru Gothic', sans-serif;
-      --bg: #e8ecef;
-      --text: #121212;
+      --font-display: 'SF Pro Display', 'Inter', system-ui, -apple-system, sans-serif;
+      --font-text: 'SF Pro Text', 'Inter', system-ui, -apple-system, sans-serif;
+      --bg: #fafafa;
+      --text: #111111;
       --muted: #6b7280;
-      --anime-accent: #264653;
-      --silver-accent: #d8e2dc;
+      --anime-accent: #1d4ed8;
+      --silver-accent: #d1d5db;
       --transition: 0.3s ease;
-      --dark-bg: #121212;
-      --dark-text: #e8ecef;
+      --dark-bg: #1c2526;
+      --dark-text: #f3f4f6;
       --dark-muted: #9ca3af;
+      --sidebar-width: 180px;
     }
 
     * {
@@ -30,13 +38,14 @@
     }
 
     body {
-      font-family: var(--font-main);
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       transition: background 0.3s, color 0.3s;
       position: relative;
-      cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0IiBjeT0iNCIgcj0iNCIgZmlsbD0iI2Q4ZTJkYyIvPjwvc3ZnPg=='), auto;
+      cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGNxPSI0IiBjeT0iNCIgcj0iNCIgZmlsbD0iI2QxZDVkYiIvPjwvc3ZnPg=='), auto;
+      overflow-x: hidden;
+      font-family: var(--font-text);
     }
 
     body.dark {
@@ -44,31 +53,18 @@
       color: var(--dark-text);
     }
 
-    body.dark a, body.dark nav a {
+    body.dark a, body.dark nav a, body.dark .project-title, body.dark .muted, body.dark .coming-soon, body.dark footer, body.dark .cv-subtext {
       color: var(--dark-text);
     }
 
-    body.dark .muted, body.dark .coming-soon, body.dark footer {
+    body.dark .muted, body.dark .coming-soon, body.dark footer, body.dark .cv-subtext {
       color: var(--dark-muted);
     }
 
-    body.dark nav a:hover {
+    body.dark nav a:hover, body.dark .cv-button:hover {
       color: var(--anime-accent);
     }
 
-    /* Background */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(38, 70, 83, 0.05), transparent);
-      z-index: -1;
-    }
-
-    /* Vignette Effect */
     body::after {
       content: '';
       position: fixed;
@@ -76,12 +72,11 @@
       left: 0;
       width: 100%;
       height: 100%;
-      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.2);
+      box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.05);
       pointer-events: none;
       z-index: -1;
     }
 
-    /* Particle Background */
     #particles {
       position: fixed;
       top: 0;
@@ -89,16 +84,18 @@
       width: 100%;
       height: 100%;
       z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: none;
     }
 
-    /* Intro Section */
     #intro {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(135deg, #121212, #1e293b, #334155);
+      background: linear-gradient(135deg, #1c2526, #2d3748);
       color: var(--dark-text);
       display: flex;
       align-items: center;
@@ -106,123 +103,181 @@
       flex-direction: column;
       z-index: 9999;
       opacity: 1;
-      animation: fadeOutIntro 1s ease-out 4s forwards;
+      will-change: transform, opacity, filter;
     }
 
     .intro-brand {
       text-align: center;
       position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
     }
 
     .intro-brand h1 {
-      font-family: var(--font-anime);
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      letter-spacing: 1.5px;
-      text-shadow: 0 0 8px var(--silver-accent);
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-shadow: 0 0 4px var(--silver-accent);
+      position: relative;
+      display: block;
+      margin-bottom: 0;
     }
 
     .intro-brand p {
-      font-family: var(--font-main);
-      font-size: 1.2rem;
+      font-family: var(--font-text);
+      font-size: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
       color: var(--dark-muted);
+      position: relative;
+      display: block;
+      margin-top: 0;
     }
 
-    .line-art {
-      position: absolute;
-      bottom: 15%;
-      width: 120px;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--silver-accent), transparent);
-      box-shadow: 0 0 5px var(--silver-accent);
-      animation: lineArtFlow 4s linear infinite;
+    .title-char, .subtitle-char {
+      display: inline-block;
+      margin-right: 0.15em;
     }
 
-    @keyframes lineArtFlow {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
+    .cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.3em;
+      background: var(--dark-text);
+      margin-left: 2px;
+      vertical-align: -0.2em;
+      box-shadow: 0 0 6px var(--silver-accent);
+      animation: pulse 0.6s infinite;
     }
 
-    .scanner-line {
-      width: 120px;
-      height: 2px;
-      background: var(--silver-accent);
-      margin: 1.5rem auto 0;
+    @keyframes pulse {
+      0%, 100% { opacity: 1; width: 3px; }
+      50% { opacity: 0.6; width: 4px; }
     }
 
-    @keyframes fadeOutIntro {
-      to { opacity: 0; visibility: hidden; filter: blur(5px); }
-    }
-
-    /* Container */
     #container {
-      display: flex;
+      display: block;
       opacity: 0;
-      visibility: hidden;
-      animation: fadeIn 1s 4.5s forwards ease-in;
+      max-width: 960px;
+      margin: 0 auto;
+      padding-left: var(--sidebar-width);
+      padding: 3rem;
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
-    @keyframes fadeIn {
-      to { opacity: 1; visibility: visible; }
-    }
-
-    /* Dark Mode Toggle */
-    .dark-toggle {
+    .toggle-switch {
       position: fixed;
-      bottom: 2rem;
-      left: 2rem;
-      font-size: 1.2rem;
-      padding: 0.5rem;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.05);
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 80px;
+      height: 40px;
+      z-index: 1001;
+      --light: var(--silver-accent);
+      --dark: var(--dark-bg);
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-switch:hover {
+      transform: scale(1.05);
+    }
+
+    .switch-label {
+      position: absolute;
+      width: 100%;
+      height: 40px;
+      background-color: var(--dark);
+      border-radius: 20px;
       cursor: pointer;
-      transition: all 0.3s;
-      z-index: 10;
+      border: 2px solid var(--dark);
     }
 
-    .dark-toggle:hover {
-      background: rgba(0, 0, 0, 0.1);
-      box-shadow: 0 0 8px var(--silver-accent);
+    .checkbox {
+      position: absolute;
+      display: none;
     }
 
-    body.dark .dark-toggle {
-      background: rgba(255, 255, 255, 0.1);
+    .slider {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      transition: 0.3s;
     }
 
-    /* Sidebar */
-    aside {
-      width: 200px;
+    .checkbox:checked ~ .slider {
+      background-color: var(--light);
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      box-shadow: inset 8px -3px 0px 0px var(--light);
+      background-color: var(--dark);
+      transition: 0.3s;
+    }
+
+    .checkbox:checked ~ .slider::before {
+      transform: translateX(40px);
+      background-color: var(--dark);
+      box-shadow: none;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100%;
+      background: rgba(250, 250, 250, 0.95);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 2rem 1rem;
-      background: white;
-      border-right: 1px solid #e5e5e5;
-      box-shadow: 2px 0 4px rgba(0,0,0,0.02);
+      box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+      transition: background 0.3s;
     }
 
-    body.dark aside {
-      background: #1e293b;
-      border-color: #374151;
+    body.dark nav {
+      background: rgba(28, 37, 38, 0.95);
     }
 
-    nav ul {
-      list-style: none;
-      margin-top: 1.5rem;
-    }
-
-    nav li {
-      margin-bottom: 0.8rem;
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      align-items: center;
     }
 
     nav a {
+      font-family: var(--font-text);
       color: var(--text);
       text-decoration: none;
+      font-size: 1rem;
       font-weight: 500;
-      font-family: var(--font-main);
-      position: relative;
-      transition: color var(--transition);
+      letter-spacing: 0.02em;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    nav a::after {
+    nav a:hover {
+      color: var(--anime-accent);
+    }
+
+    nav a::before {
       content: '';
       position: absolute;
       width: 0;
@@ -233,72 +288,133 @@
       transition: width 0.3s ease;
     }
 
-    nav a:hover::after {
+    nav a:hover::before {
       width: 100%;
     }
 
-    nav a:hover {
+    .social-links {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .social-links i {
+      font-size: 1.2rem;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.75rem;
+      z-index: 1001;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100%;
+      background: rgba(250, 250, 250, 0.95);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      display: none;
+      flex-direction: column;
+      padding: 3rem 1rem;
+      z-index: 999;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    body.dark .mobile-menu {
+      background: rgba(28, 37, 38, 0.95);
+    }
+
+    .mobile-menu.active {
+      display: flex;
+      transform: translateX(0);
+    }
+
+    .mobile-menu a {
+      font-family: var(--font-text);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .mobile-menu a:hover {
       color: var(--anime-accent);
     }
 
-    nav a:hover::before {
-      content: '✨';
-      position: absolute;
-      left: -15px;
-      opacity: 0.5;
-      font-size: 0.8rem;
-    }
-
-    .social-icons a {
-      margin: 0 0.4rem;
-      font-size: 1rem;
-      color: var(--muted);
-      transition: transform 0.3s, color 0.3s;
-    }
-
-    .social-icons a:hover {
-      transform: scale(1.2);
-      color: var(--silver-accent);
-    }
-
-    /* Main Content */
     main {
       flex: 1;
-      padding: 3rem;
+      position: relative;
+      width: 100%;
     }
 
-    h2 {
-      font-family: var(--font-anime);
-      font-size: 1.8rem;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
+    #greetings {
+      padding: 3rem 0;
+    }
+
+    #greetings h2 {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 600;
       color: var(--anime-accent);
-      letter-spacing: 1px;
+      letter-spacing: 0.02em;
+    }
+
+    #greetings p {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.75;
+      max-width: 600px;
+      letter-spacing: 0.01em;
     }
 
     .projects {
-      margin-top: 1.5rem;
+      margin-top: 2rem;
+      display: grid;
+      gap: 1.5rem;
     }
 
     .project {
-      margin-bottom: 1.5rem;
-      padding: 1rem;
-      border-radius: 10px;
+      padding: 1.5rem;
+      border-radius: 16px;
       display: flex;
       align-items: center;
-      gap: 1rem;
-      background: rgba(255, 255, 255, 0.02);
-      transition: transform 0.3s, box-shadow 0.3s;
+      gap: 1.5rem;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, scale 0.3s ease;
       position: relative;
+      cursor: pointer;
+    }
+
+    .project.no-link {
+      cursor: default;
+      pointer-events: none;
     }
 
     body.dark .project {
-      background: rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
-    .project:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 10px var(--silver-accent);
+    .project:hover:not(.no-link) {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     }
 
     .project::before {
@@ -309,368 +425,752 @@
       width: 100%;
       height: 100%;
       border: 1px solid transparent;
-      border-radius: 10px;
+      border-radius: 16px;
       transition: border-color 0.3s;
     }
 
-    .project:hover::before {
+    .project:hover:not(.no-link)::before {
       border-color: var(--silver-accent);
-      opacity: 0.3;
     }
 
     .project img {
-      width: 120px;
-      height: 80px;
+      width: 160px;
+      height: 100px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 12px;
       border: 1px solid var(--anime-accent);
-      transition: transform 0.3s, filter 0.3s;
+      transition: transform 0.3s ease;
     }
 
-    .project:hover img {
+    .project:hover:not(.no-link) img {
       transform: scale(1.05);
-      filter: grayscale(50%) sepia(10%) hue-rotate(180deg);
     }
 
     .project-title {
-      font-family: var(--font-anime);
+      font-family: var(--font-display);
       font-weight: 600;
-      font-size: 1.2rem;
-      animation: faintPulse 5s ease-in-out infinite;
+      font-size: 1.5rem;
+      line-height: 1.5;
+      letter-spacing: 0.01em;
     }
 
-    @keyframes faintPulse {
-      50% { opacity: 0.9; }
-    }
-
-    .coming-soon {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .quote {
-      margin: 2.5rem 0;
-      font-style: italic;
-      color: var(--muted);
+    .project .muted, .project .coming-soon {
       font-size: 1rem;
-      padding: 1rem;
-      position: relative;
+      font-weight: 400;
+      line-height: 1.75;
+      letter-spacing: 0.01em;
     }
 
-    .quote::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 2px solid var(--anime-accent);
-      border-radius: 5px;
-      animation: borderFlow 4s linear infinite;
+    #cv {
+      padding: 3rem 0;
     }
 
-    @keyframes borderFlow {
-      0% { clip-path: inset(0 100% 0 0); }
-      25% { clip-path: inset(0 0 0 0); }
-      50% { clip-path: inset(100% 0 0 0); }
-      75% { clip-path: inset(0 0 0 100%); }
-      100% { clip-path: inset(0 100% 0 0); }
+    #cv h2 {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 600;
+      color: var(--anime-accent);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .cv-icon {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .cv-container {
+      padding: 2rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      max-width: 500px;
+    }
+
+    .cv-container:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark .cv-container {
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .cv-container p {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.75;
+      max-width: 600px;
+      letter-spacing: 0.01em;
+      margin-bottom: 1.25rem;
+    }
+
+    .cv-subtext {
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .cv-divider {
+      border-top: 1px solid var(--silver-accent);
+      margin: 1.5rem 0;
+    }
+
+    .cv-actions {
+      display: flex;
+      gap: 1.25rem;
+      justify-content: center;
+    }
+
+    .cv-button {
+      display: inline-block;
+      padding: 0.875rem 2.25rem;
+      font-family: var(--font-text);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--silver-accent);
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+      transition: all 0.3s ease;
+    }
+
+    body.dark .cv-button {
+      background: linear-gradient(135deg, #374151, #1f2937);
+    }
+
+    .cv-button:hover {
+      color: var(--anime-accent);
+      transform: scale(1.05);
+      box-shadow: 0 0 12px var(--silver-accent);
+    }
+
+    .cv-button:focus {
+      outline: 2px solid var(--anime-accent);
+      outline-offset: 2px;
     }
 
     footer {
       margin-top: 4rem;
       padding: 2rem 0;
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
+      font-weight: 400;
       color: var(--muted);
+      border-top: 1px solid var(--silver-accent);
+      letter-spacing: 0.01em;
     }
 
     @media screen and (max-width: 768px) {
-      #container {
-        flex-direction: column;
+      nav {
+        display: none;
       }
 
-      aside {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #e5e5e5;
+      .hamburger {
+        display: block;
+      }
+
+      #container {
+        padding-left: 0;
         padding: 1.5rem;
       }
 
-      body.dark aside {
-        border-color: #374151;
-      }
-
       main {
-        padding: 2rem;
+        padding: 1.5rem 0;
       }
 
-      .project img {
-        width: 80px;
-        height: 60px;
+      #greetings h2, #cv h2 {
+        font-size: 1.75rem;
       }
 
       .intro-brand h1 {
         font-size: 2.5rem;
       }
+
+      .intro-brand p {
+        font-size: 1.2rem;
+      }
+
+      .project img {
+        width: 120px;
+        height: 80px;
+      }
+
+      .project-title {
+        font-size: 1.25rem;
+      }
+
+      .project .muted, .project .coming-soon {
+        font-size: 0.875rem;
+      }
+
+      .cv-container {
+        padding: 1.5rem;
+      }
+
+      .cv-container p {
+        font-size: 0.875rem;
+      }
+
+      .cv-subtext {
+        font-size: 0.75rem;
+      }
+
+      .cv-actions {
+        flex-direction: column;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .cv-button {
+        padding: 0.625rem 1.75rem;
+        font-size: 0.875rem;
+        text-align: center;
+      }
+
+      .toggle-switch {
+        width: 60px;
+        height: 30px;
+        top: 1rem;
+        right: 1rem;
+      }
+
+      .switch-label {
+        height: 30px;
+        border: 2px solid var(--dark);
+      }
+
+      .slider::before {
+        top: 6px;
+        left: 6px;
+        width: 16px;
+        height: 16px;
+        box-shadow: inset 6px -2px 0px 0px var(--light);
+      }
+
+      .checkbox:checked ~ .slider::before {
+        transform: translateX(28px);
+      }
     }
   </style>
 </head>
 <body>
-  <canvas id="particles"></canvas>
+  <div class="toggle-switch" id="dark-toggle" role="button" aria-label="Toggle Dark Mode" tabindex="0">
+    <label class="switch-label">
+      <input type="checkbox" class="checkbox">
+      <span class="slider"></span>
+    </label>
+  </div>
 
-  <div id="intro">
+  <nav role="navigation" aria-label="Main Navigation">
+    <div class="nav-links">
+      <a href="#" data-scroll-to="top" aria-label="Go to Home">Home</a>
+      <a href="#projects" data-scroll-to="projects" aria-label="Go to Projects">Projects</a>
+      <a href="#cv" data-scroll-to="cv" aria-label="Go to CV">CV</a>
+      <a href="mailto:rizkyriady16@gmail.com" aria-label="Contact via Email">Contact</a>
+    </div>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/rizkyriyadi16" target="_blank" aria-label="Visit LinkedIn Profile"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="https://github.com/rizkyriady16" target="_blank" aria-label="Visit GitHub Profile"><i class="fab fa-github"></i> GitHub</a>
+    </div>
+  </nav>
+
+  <div class="hamburger" role="button" aria-label="Toggle Mobile Menu" tabindex="0">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div class="mobile-menu">
+    <div class="nav-links">
+      <a href="#" data-scroll-to="top" aria-label="Go to Home">Home</a>
+      <a href="#projects" data-scroll-to="projects" aria-label="Go to Projects">Projects</a>
+      <a href="#cv" data-scroll-to="cv" aria-label="Go to CV">CV</a>
+      <a href="mailto:rizkyriady16@gmail.com" aria-label="Contact via Email">Contact</a>
+    </div>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/rizkyriyadi16" target="_blank" aria-label="Visit LinkedIn Profile"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="https://github.com/rizkyriady16" target="_blank" aria-label="Visit GitHub Profile"><i class="fab fa-github"></i> GitHub</a>
+    </div>
+  </div>
+
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <div id="intro" role="dialog" aria-label="Introduction Animation">
     <div class="intro-brand">
-      <h1>Rizky Riyadi</h1>
-      <p>Software Engineer</p>
-      <div class="scanner-line"></div>
-      <div class="line-art"></div>
+      <h1 id="intro-title">Rizky Riyadi</h1>
+      <p id="intro-subtitle">Software Engineer</p>
     </div>
   </div>
 
   <div id="container">
-    <aside>
-      <div>
-        <strong style="font-size: 1.3rem;">Rizky Riyadi</strong><br />
-        <span class="muted">Software Engineer</span>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#greetings">Greetings</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#cv">CV</a></li>
-          <li><a href="mailto:rizkyriady16@gmail.com">Contact</a></li>
-        </ul>
-      </nav>
-      <div class="social-icons">
-        <a href="https://github.com/rizkyriyadi" target="_blank">🐙</a>
-        <a href="https://www.linkedin.com/in/rizky-riyadi-388b56169/" target="_blank">💼</a>
-        <a href="https://rizkyriyadi.github.io/weather-project/#/current-location" target="_blank">🌐</a>
-      </div>
-      <div class="dark-toggle" onclick="toggleDarkMode()">🌙</div>
-    </aside>
-
     <main>
-      <section id="greetings">
-        <h2>Greetings</h2>
-        <p>I'm Rizky Riyadi, a Software Engineer passionate about crafting scalable and efficient applications. Experienced in microservices, REST APIs, and CI/CD pipelines, I am currently pursuing a Bachelor's degree in Computer Science at Gunadarma University (GPA 3.68).</p>
+      <section id="greetings" aria-labelledby="greetings-heading">
+        <h2 id="greetings-heading">Greetings</h2>
+        <p>Hey, I’m Rizky Riyadi, a Software Engineering student at Gunadarma University (3.68 GPA). I’m diving into microservices, REST APIs, and CI/CD pipelines to craft solid apps, and I’m stoked to keep leveling up!</p>
       </section>
 
-      <section id="projects" class="projects">
-        <h2>Projects</h2>
-        <div class="project">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Node.js Boilerplate code editor">
+      <section id="projects" class="projects" aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Projects</h2>
+        <a href="https://github.com/rizkyriady16/node-boilerplate" target="_blank" class="project" role="article" aria-label="View Node.js Boilerplate project" onclick="console.log('Node.js project clicked')">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Node.js Boilerplate code editor" loading="lazy">
           <div>
             <div class="project-title">Node.js Boilerplate (Telkomsel)</div>
-            <div class="muted">A Node.js boilerplate with microservices using NestJS, gRPC, and TypeORM, equipped with CI/CD and OpenTelemetry monitoring.</div>
+            <div class="muted">Exploring microservices with NestJS, gRPC, and TypeORM, including CI/CD and monitoring.</div>
           </div>
-        </div>
-        <div class="project">
-          <img src="https://images.unsplash.com/photo-1593443320739-6c91b6c1adef" alt="Dynamic Weather Insights app UI">
+        </a>
+        <a href="https://rizkyriyadi.github.io/weather-project/#/current-location" target="_blank" class="project" role="article" aria-label="View Dynamic Weather Insights project" onclick="console.log('Weather project clicked')">
+          <img src="https://images.unsplash.com/photo-1593443320739-6c91b6c1adef" alt="Dynamic Weather Insights app UI" loading="lazy">
           <div>
             <div class="project-title">Dynamic Weather Insights</div>
-            <div class="muted">A real-time weather website with a responsive interface, built for optimal user experience.</div>
+            <div class="muted">A responsive weather website built to practice real-time data display.</div>
           </div>
-        </div>
-        <div class="project">
-          <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942e7" alt="CRUD Golang REST API terminal">
+        </a>
+        <a href="https://github.com/rizkyriady16/golang-crud-api" target="_blank" class="project" role="article" aria-label="View CRUD Golang REST API project" onclick="console.log('Golang project clicked')">
+          <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942e7" alt="CRUD Golang REST API terminal" loading="lazy">
           <div>
             <div class="project-title">CRUD Golang REST API</div>
-            <div class="muted">A RESTful API built with Golang and Gin, supporting CRUD operations and table relationships.</div>
+            <div class="muted">A REST API in Golang with Gin, learning CRUD and database relationships.</div>
           </div>
-        </div>
-        <div class="project">
-          <img src="https://images.unsplash.com/photo-1623479322729-28b25c16b011" alt="Admin Dashboard mockup">
+        </a>
+        <a href="#" class="project no-link" role="article" aria-label="Admin Dashboard project (Coming Soon)">
+          <img src="https://images.unsplash.com/photo-1623479322729-28b25c16b011" alt="Admin Dashboard mockup" loading="lazy">
           <div>
             <div class="project-title">Admin Dashboard</div>
-            <div class="coming-soon">A responsive admin dashboard prototype built with TypeScript and React.</div>
+            <div class="coming-soon">Working on a responsive dashboard with TypeScript and React.</div>
+          </div>
+        </a>
+      </section>
+
+      <section id="cv" aria-labelledby="cv-heading">
+        <h2 id="cv-heading"><i class="fas fa-file-alt cv-icon" aria-hidden="true"></i> CV</h2>
+        <div class="cv-container">
+          <p>Check out my CV for a peek at my skills and projects!</p>
+          <p class="cv-subtext muted">Feel free to reach out or grab it below.</p>
+          <hr class="cv-divider">
+          <div class="cv-actions">
+            <a href="mailto:rizkyriady16@gmail.com" class="cv-button" aria-label="Send email to request CV" onclick="console.log('CV email request clicked')">Request via Email</a>
+            <a href="/mohamadRizkyRIyadi_CV.pdf" download class="cv-button" aria-label="Download CV" onclick="console.log('CV download clicked')">Download CV</a>
           </div>
         </div>
       </section>
 
-      <section id="cv">
-        <h2>CV</h2>
-        <p>Available on request or download via <a href="/mohamadRizkyRIyadi_CV.pdf" download>this link</a>.</p>
-      </section>
-
-      <div class="quote">“Clean architecture creates peace of mind.”</div>
-
-      <footer>
-        © 2025 Rizky Riyadi — All rights reserved. | <a href="mailto:rizkyriady16@gmail.com">Contact</a>
+      <footer role="contentinfo">
+        © 2025 Rizky Riyadi — All rights reserved. | <a href="mailto:rizkyriady16@gmail.com" aria-label="Contact via Email">Contact</a>
       </footer>
     </main>
   </div>
 
   <script>
-    console.log("Script loaded");
-
-    // Toggle Dark Mode
-    function toggleDarkMode() {
-      console.log("Toggle dark mode");
-      const body = document.body;
-      const toggle = document.querySelector('.dark-toggle');
-      body.classList.toggle('dark');
-      toggle.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
-      gsap.to(toggle, { rotation: 180, duration: 0.5, ease: "power2.out" });
-      gsap.to(toggle, { scale: 1.2, duration: 0.2, yoyo: true, repeat: 1 });
-    }
-
-    // Particle Background
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    if (ctx) {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const particlesArray = [];
-      class Particle {
-        constructor() {
-          this.x = Math.random() * canvas.width;
-          this.y = Math.random() * canvas.height;
-          this.size = Math.random() * 1 + 0.5;
-          this.speedX = Math.random() * 0.08 - 0.04;
-          this.speedY = Math.random() * 0.08 - 0.04;
-        }
-        update() {
-          this.x += this.speedX;
-          this.y += this.speedY;
-          if (this.size > 0.2) this.size -= 0.008;
-        }
-        draw() {
-          ctx.fillStyle = 'rgba(216, 226, 220, 0.3)';
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      function initParticles() {
-        for (let i = 0; i < 10; i++) {
-          particlesArray.push(new Particle());
-        }
-      }
-
-      function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < particlesArray.length; i++) {
-          particlesArray[i].update();
-          particlesArray[i].draw();
-          if (particlesArray[i].size <= 0.2) {
-            particlesArray.splice(i, 1);
-            i--;
-            particlesArray.push(new Particle());
-          }
-        }
-        requestAnimationFrame(animateParticles);
-      }
-
+    // Enhanced error handling wrapper
+    const safeExecute = (fn, errorMessage) => {
       try {
-        initParticles();
-        animateParticles();
+        fn();
       } catch (e) {
-        console.error("Particle error:", e);
+        console.error(`${errorMessage || "Error"}: ${e.message}`, e.stack);
+      }
+    };
+
+    // Wait for DOM and GSAP to load
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log("Script loaded. Browser:", navigator.userAgent);
+
+      // Check GSAP availability
+      safeExecute(() => {
+        if (typeof gsap === 'undefined') throw new Error("GSAP not loaded");
+        console.log("GSAP loaded successfully");
+      }, "GSAP Load Error");
+
+      // Check font loading
+      safeExecute(() => {
+        document.fonts.ready.then(() => {
+          console.log("Fonts loaded successfully");
+        }).catch(err => console.error("Font loading error:", err));
+      }, "Font Loading Error");
+
+      // Toggle Dark Mode
+      function toggleDarkMode() {
+        safeExecute(() => {
+          console.log("Attempting to toggle dark mode");
+          const body = document.body;
+          const checkbox = document.querySelector('#dark-toggle .checkbox');
+          if (!checkbox) throw new Error("Dark toggle checkbox not found");
+          body.classList.toggle('dark');
+          checkbox.checked = body.classList.contains('dark');
+          console.log("Dark mode:", body.classList.contains('dark'), "Checkbox checked:", checkbox.checked);
+          gsap.to('#dark-toggle', { scale: 1.1, duration: 0.2, ease: "power4.out" });
+          gsap.to('#dark-toggle', { scale: 1, duration: 0.2, delay: 0.2 });
+        }, "Dark Mode Toggle Error");
       }
 
-      window.addEventListener('resize', () => {
+      // Dark toggle event listeners
+      safeExecute(() => {
+        const checkbox = document.querySelector('#dark-toggle .checkbox');
+        if (!checkbox) throw new Error("Dark toggle checkbox not found");
+        checkbox.addEventListener('change', () => {
+          console.log("Checkbox changed");
+          toggleDarkMode();
+        });
+        const toggle = document.querySelector('#dark-toggle');
+        toggle.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            console.log("Toggle activated via keyboard");
+            e.preventDefault();
+            checkbox.checked = !checkbox.checked;
+            toggleDarkMode();
+          }
+        });
+      }, "Dark Toggle Event Error");
+
+      // Sidebar functionality
+      safeExecute(() => {
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        if (!hamburger || !mobileMenu) throw new Error("Hamburger or mobile menu not found");
+
+        hamburger.addEventListener('click', () => {
+          mobileMenu.classList.toggle('active');
+          const isActive = mobileMenu.classList.contains('active');
+          gsap.to(mobileMenu, {
+            x: isActive ? 0 : '-100%',
+            duration: 0.3,
+            ease: "power4.out"
+          });
+          hamburger.innerHTML = isActive ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        hamburger.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            hamburger.click();
+          }
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('[data-scroll-to]').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('data-scroll-to');
+            const target = targetId === 'top' ? document.body : document.getElementById(targetId);
+            if (target) {
+              gsap.to(window, {
+                scrollTo: { y: target, offsetY: 30 },
+                duration: 0.8,
+                ease: "power4.out"
+              });
+              mobileMenu.classList.remove('active');
+              hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+              gsap.to(mobileMenu, { x: '-100%', duration: 0.3, ease: "power4.out" });
+            }
+          });
+        });
+
+        // Sidebar animation
+        gsap.from('.nav-links a, .social-links a', {
+          opacity: 0,
+          y: 20,
+          stagger: 0.1,
+          duration: 0.5,
+          ease: "power4.out",
+          delay: 3.46
+        });
+      }, "Sidebar Functionality Error");
+
+      // Particle Background
+      safeExecute(() => {
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          console.warn("Canvas context not supported");
+          return;
+        }
+
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-      });
-    } else {
-      console.warn("Canvas not supported");
-    }
 
-    // GSAP Animations
-    gsap.from(".intro-brand h1", { opacity: 0, scale: 0.9, y: 30, duration: 1.5, ease: "power3.out", delay: 0.5 });
-    gsap.from(".intro-brand p", { opacity: 0, y: 20, duration: 1.2, ease: "power3.out", delay: 0.8 });
-    gsap.from(".scanner-line", { scaleX: 0, opacity: 0, duration: 1.2, ease: "power3.inOut", delay: 2 });
-    gsap.from(".line-art", { opacity: 0, width: 0, duration: 1.5, ease: "power3.out", delay: 1.5 });
+        const particlesArray = [];
+        class Particle {
+          constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 1 + 0.5;
+            this.speedX = Math.random() * 0.06 - 0.03;
+            this.speedY = Math.random() * 0.06 - 0.03;
+          }
+          update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.size > 0.2) this.size -= 0.006;
+          }
+          draw() {
+            ctx.fillStyle = 'rgba(209, 213, 219, 0.3)';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
 
-    gsap.from("aside strong", { opacity: 0, x: -20, duration: 1, ease: "power3.out", delay: 4.5 });
-    gsap.from("aside .muted", { opacity: 0, x: -20, duration: 1, ease: "power3.out", delay: 4.7 });
-    gsap.from("nav li", { opacity: 0, x: -20, stagger: 0.1, duration: 0.8, ease: "power3.out", delay: 4.9 });
-    gsap.from(".social-icons a", { opacity: 0, y: 10, stagger: 0.1, duration: 0.8, ease: "power3.out", delay: 5.3 });
+        function animateParticles() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+            particlesArray[i].draw();
+            if (particlesArray[i].size <= 0.2) {
+              particlesArray.splice(i, 1);
+              i--;
+              particlesArray.push(new Particle());
+            }
+          }
+          requestAnimationFrame(animateParticles);
+        }
 
-    gsap.from("#greetings h2", { opacity: 0, y: 30, duration: 1, ease: "power3.out", scrollTrigger: { trigger: "#greetings", start: "top 80%" } });
-    gsap.from("#greetings p", { opacity: 0, y: 20, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: "#greetings", start: "top 80%" } });
+        for (let i = 0; i < 3; i++) {
+          particlesArray.push(new Particle());
+        }
+        setTimeout(() => {
+          canvas.style.display = 'block';
+          gsap.to('#particles', { opacity: 1, duration: 0.5 });
+          animateParticles();
+        }, 4000);
 
-    gsap.from("#projects h2", { opacity: 0, y: 30, duration: 1, ease: "power3.out", scrollTrigger: { trigger: "#projects", start: "top 80%" } });
-    gsap.from(".project", { opacity: 0, y: 20, stagger: 0.2, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: "#projects", start: "top 80%" } });
+        window.addEventListener('resize', () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        });
+      }, "Particle Background Error");
 
-    gsap.from("#cv h2, #cv p", { opacity: 0, y: 20, stagger: 0.2, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: "#cv", start: "top 80%" } });
-    gsap.from(".quote", { opacity: 0, x: 20, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".quote", start: "top 80%" } });
-    gsap.from("footer", { opacity: 0, y: 20, duration: 1, ease: "power3.out", scrollTrigger: { trigger: "footer", start: "top 90%" } });
+      // GSAP Intro Timeline with Spaced Typing Effect
+      safeExecute(() => {
+        if (typeof gsap === 'undefined') throw new Error("GSAP not loaded");
+        const intro = document.getElementById('intro');
+        const container = document.getElementById('container');
+        const introTitle = document.getElementById('intro-title');
+        const introSubtitle = document.getElementById('intro-subtitle');
+        if (!intro || !container || !introTitle || !introSubtitle) {
+          throw new Error("Intro or container elements missing");
+        }
 
-    // Typewriter Effect
-    const greetingsHeader = document.querySelector("#greetings h2");
-    const text = greetingsHeader.textContent;
-    greetingsHeader.textContent = "";
-    const chars = text.split("");
-    chars.forEach((char, i) => {
-      const span = document.createElement("span");
-      span.textContent = char;
-      span.style.opacity = 0;
-      greetingsHeader.appendChild(span);
-      gsap.to(span, {
-        opacity: 1,
-        duration: 0.1,
-        delay: 0.2 + i * 0.12,
-        ease: "power1.in",
-        scrollTrigger: { trigger: "#greetings", start: "top 80%" }
-      });
+        // Split text for typing effect with spaces
+        const titleText = "Rizky Riyadi";
+        const subtitleText = "Software Engineer";
+        const titleChars = titleText.split('').map(char => char + ' ').join('').trim();
+        const subtitleChars = subtitleText.split('').map(char => char + ' ').join('').trim();
+        introTitle.innerHTML = titleChars.split('').map(char => `<span class="title-char">${char}</span>`).join('') + '<span class="cursor" id="title-cursor"></span>';
+        introSubtitle.innerHTML = subtitleChars.split('').map(char => `<span class="subtitle-char">${char}</span>`).join('') + '<span class="cursor" id="subtitle-cursor" style="display: none;"></span>';
+
+        console.log("Starting intro animation");
+        const introTimeline = gsap.timeline({
+          onComplete: () => console.log("Intro animation completed")
+        });
+
+        introTimeline
+          .from('.title-char', {
+            opacity: 0,
+            scale: 1.05,
+            duration: 0.04,
+            stagger: 0.04,
+            ease: "power4.out",
+            onStart: () => console.log("Typing title")
+          })
+          .to('#title-cursor', {
+            display: 'none',
+            duration: 0,
+            onStart: () => console.log("Hiding title cursor")
+          })
+          .to('#subtitle-cursor', {
+            display: 'inline-block',
+            duration: 0,
+            onStart: () => console.log("Showing subtitle cursor")
+          }, "-=0.1")
+          .from('.subtitle-char', {
+            opacity: 0,
+            scale: 1.05,
+            duration: 0.04,
+            stagger: 0.04,
+            ease: "power4.out",
+            onStart: () => console.log("Typing subtitle")
+          }, "-=0.62")
+          .to('#subtitle-cursor', {
+            opacity: 0,
+            duration: 0.1,
+            onStart: () => console.log("Hiding subtitle cursor")
+          })
+          .to(['#intro-title', '#intro-subtitle'], {
+            textShadow: "0 0 8px var(--silver-accent)",
+            duration: 0.2,
+            ease: "power4.out",
+            onStart: () => console.log("Applying glow effect")
+          })
+          .to(['#intro-title', '#intro-subtitle'], {
+            textShadow: "0 0 4px var(--silver-accent)",
+            duration: 0.2,
+            ease: "power4.in"
+          })
+          .to(intro, {
+            scale: 1.05,
+            filter: "blur(4px)",
+            opacity: 0,
+            duration: 1,
+            ease: "power4.in",
+            onStart: () => console.log("Zooming out intro"),
+            onComplete: () => {
+              console.log("Intro zoom-out completed");
+              intro.style.display = 'none';
+            }
+          })
+          .to(container, {
+            opacity: 1,
+            y: -20,
+            duration: 0.7,
+            ease: "power4.out",
+            onStart: () => console.log("Revealing container")
+          }, "-=0.5");
+      }, "Intro Timeline Error");
+
+      // GSAP Scroll Animations
+      safeExecute(() => {
+        if (typeof gsap === 'undefined') throw new Error("GSAP not loaded");
+        if (typeof ScrollTrigger === 'undefined') throw new Error("ScrollTrigger not loaded");
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from("#greetings h2", {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: "power4.out",
+          scrollTrigger: { trigger: "#greetings", start: "top 85%" }
+        });
+        gsap.from("#greetings p", {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: "power4.out",
+          delay: 0.2,
+          scrollTrigger: { trigger: "#greetings", start: "top 85%" }
+        });
+
+        gsap.from("#projects h2", {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: "power4.out",
+          scrollTrigger: { trigger: "#projects", start: "top 85%" }
+        });
+        gsap.from(".project", {
+          opacity: 0,
+          y: 30,
+          stagger: 0.2,
+          duration: 0.6,
+          ease: "power4.out",
+          scrollTrigger: { trigger: ".projects", start: "top 85%" }
+        });
+
+        gsap.from("#cv h2", {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: "power4.out",
+          scrollTrigger: { trigger: "#cv", start: "top 85%" }
+        });
+        gsap.from(".cv-icon", {
+          scale: 1,
+          duration: 0.3,
+          ease: "power4.out",
+          scrollTrigger: { trigger: "#cv", start: "top 85%" }
+        });
+        gsap.from(".cv-container", {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: "power4.out",
+          delay: 0.2,
+          scrollTrigger: { trigger: "#cv", start: "top 85%" }
+        });
+        gsap.from(".cv-button", {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power4.out",
+          delay: 0.3,
+          scrollTrigger: { trigger: "#cv", start: "top 85%" }
+        });
+
+        gsap.from("footer", {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          ease: "power4.out",
+          scrollTrigger: { trigger: "footer", start: "top 90%" }
+        });
+      }, "GSAP Animations Error");
+
+      // Cursor Effects
+      safeExecute(() => {
+        document.addEventListener("click", e => {
+          const ring = document.createElement('div');
+          ring.style.position = "absolute";
+          ring.style.width = "12px";
+          ring.style.height = "12px";
+          ring.style.border = "1px solid var(--silver-accent)";
+          ring.style.borderRadius = "50%";
+          ring.style.left = `${e.clientX - 6}px`;
+          ring.style.top = `${e.clientY - 6}px`;
+          ring.style.pointerEvents = "none";
+          document.body.appendChild(ring);
+          gsap.to(ring, { scale: 2.5, opacity: 0, duration: 0.3, ease: "power4.out", onComplete: () => ring.remove() });
+        });
+
+        document.addEventListener("mousemove", e => {
+          const trail = document.createElement("div");
+          trail.style.position = "absolute";
+          trail.style.width = "4px";
+          trail.style.height = "4px";
+          trail.style.background = "rgba(209, 213, 219, 0.3)";
+          trail.style.borderRadius = "50%";
+          trail.style.left = `${e.clientX}px`;
+          trail.style.top = `${e.clientY}px`;
+          trail.style.pointerEvents = "none";
+          document.body.appendChild(trail);
+          gsap.to(trail, {
+            scale: 0,
+            opacity: 0,
+            duration: 0.4,
+            ease: "power4.out",
+            onComplete: () => trail.remove()
+          });
+        });
+
+        document.querySelectorAll("a, #dark-toggle").forEach(link => {
+          link.addEventListener("mouseenter", () => {
+            gsap.to(link, { textShadow: "0 0 6px var(--silver-accent)", duration: 0.3 });
+          });
+          link.addEventListener("mouseleave", () => {
+            gsap.to(link, { textShadow: "none", duration: 0.3 });
+          });
+        });
+      }, "Cursor Effects Error");
+
+      // Ensure container visibility
+      safeExecute(() => {
+        setTimeout(() => {
+          const container = document.getElementById('container');
+          const intro = document.getElementById('intro');a
+          if (container && intro) {
+            container.style.opacity = '1';
+            container.style.transform = 'translateY(0)';
+            intro.style.display = 'none';
+            console.log("Container forced visible, intro hidden");
+          } else {
+            console.warn("Container or intro element not found");
+          }
+        }, 4000);
+      }, "Container Visibility Error");
     });
-
-    // Parallax and Lens Flare
-    document.querySelectorAll(".project").forEach(project => {
-      const img = project.querySelector("img");
-      project.addEventListener("mousemove", e => {
-        const rect = project.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        gsap.to(img, { x: x * 0.05, y: y * 0.05, duration: 0.3, ease: "power2.out" });
-      });
-      project.addEventListener("mouseleave", () => {
-        gsap.to(img, { x: 0, y: 0, duration: 0.3, ease: "power2.out" });
-      });
-    });
-
-    // Cursor Trail
-    document.addEventListener("mousemove", e => {
-      const trail = document.createElement("div");
-      trail.style.position = "absolute";
-      trail.style.width = "4px";
-      trail.style.height = "4px";
-      trail.style.background = "rgba(216, 226, 220, 0.3)";
-      trail.style.borderRadius = "50%";
-      trail.style.left = `${e.clientX}px`;
-      trail.style.top = `${e.clientY}px`;
-      trail.style.pointerEvents = "none";
-      document.body.appendChild(trail);
-      gsap.to(trail, {
-        scale: 0,
-        opacity: 0,
-        duration: 0.4,
-        ease: "power2.out",
-        onComplete: () => trail.remove()
-      });
-    });
-
-    // Cursor Glow on Links
-    document.querySelectorAll("a").forEach(link => {
-      link.addEventListener("mouseenter", () => {
-        gsap.to(link, { textShadow: "0 0 5px var(--silver-accent)", duration: 0.3 });
-      });
-      link.addEventListener("mouseleave", () => {
-        gsap.to(link, { textShadow: "none", duration: 0.3 });
-      });
-    });
-
-    // Ensure container visibility
-    setTimeout(() => {
-      const container = document.getElementById('container');
-      container.style.opacity = '1';
-      container.style.visibility = 'visible';
-      console.log("Container forced visible");
-    }, 5000);
   </script>
 </body>
 </html>
