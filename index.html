@@ -11,13 +11,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
-  <link href="https://fonts.cdnfonts.com/css/sf-pro-text" rel="stylesheet">
-  <link href="https://fonts.cdnfonts.com/css/inter" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --font-display: 'SF Pro Display', 'Inter', system-ui, -apple-system, sans-serif;
-      --font-text: 'SF Pro Text', 'Inter', system-ui, -apple-system, sans-serif;
+      --font-display: 'Poppins', system-ui, -apple-system, sans-serif;
+      --font-text: 'Poppins', system-ui, -apple-system, sans-serif;
       --bg: #fafafa;
       --text: #111111;
       --muted: #6b7280;
@@ -164,7 +162,7 @@
       max-width: 960px;
       margin: 0 auto;
       padding-left: var(--sidebar-width);
-      padding: 3rem;
+      padding: 2rem;
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
@@ -192,6 +190,9 @@
       border-radius: 20px;
       cursor: pointer;
       border: 2px solid var(--dark);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
     }
 
     .checkbox {
@@ -205,6 +206,10 @@
       height: 100%;
       border-radius: 20px;
       transition: 0.3s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
     }
 
     .checkbox:checked ~ .slider {
@@ -228,6 +233,18 @@
       transform: translateX(40px);
       background-color: var(--dark);
       box-shadow: none;
+    }
+
+    .slider::after {
+      content: "☀️";
+      font-size: 1rem;
+      color: var(--dark-text);
+      margin-left: auto;
+    }
+
+    .checkbox:checked ~ .slider::after {
+      content: "🌙";
+      color: var(--text);
     }
 
     nav {
@@ -364,29 +381,41 @@
     }
 
     #greetings {
-      padding: 3rem 0;
+      padding: 2rem 0;
+      text-align: center;
     }
 
     #greetings h2 {
       font-family: var(--font-display);
-      font-size: 2.25rem;
-      font-weight: 600;
-      color: var(--anime-accent);
-      letter-spacing: 0.02em;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+    }
+
+    body.dark #greetings h2 {
+      color: var(--dark-text);
     }
 
     #greetings p {
-      font-size: 1rem;
+      font-family: var(--font-text);
+      font-size: 1.1rem;
       font-weight: 400;
-      line-height: 1.75;
-      max-width: 600px;
-      letter-spacing: 0.01em;
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0 auto;
+      color: var(--muted);
+    }
+
+    body.dark #greetings p {
+      color: var(--dark-muted);
     }
 
     .projects {
       margin-top: 2rem;
       display: grid;
-      gap: 1.5rem;
+      gap: 2rem;
     }
 
     .project {
@@ -449,7 +478,7 @@
     .project-title {
       font-family: var(--font-display);
       font-weight: 600;
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       line-height: 1.5;
       letter-spacing: 0.01em;
     }
@@ -462,19 +491,19 @@
     }
 
     #cv {
-      padding: 3rem 0;
+      padding: 4rem 0;
     }
 
     #cv h2 {
       font-family: var(--font-display);
-      font-size: 2.25rem;
+      font-size: 2.5rem;
       font-weight: 600;
       color: var(--anime-accent);
       letter-spacing: 0.02em;
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .cv-icon {
@@ -534,20 +563,21 @@
       font-family: var(--font-text);
       font-size: 1rem;
       font-weight: 600;
-      color: var(--text);
+      color: var(--dark-text);
       text-decoration: none;
       border: 1px solid var(--silver-accent);
       border-radius: 9999px;
-      background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
       transition: all 0.3s ease;
     }
 
     body.dark .cv-button {
-      background: linear-gradient(135deg, #374151, #1f2937);
+      background: linear-gradient(135deg, #1e40af, #1e3a8a);
+      color: var(--dark-text);
     }
 
     .cv-button:hover {
-      color: var(--anime-accent);
+      color: var(--dark-text);
       transform: scale(1.05);
       box-shadow: 0 0 12px var(--silver-accent);
     }
@@ -561,11 +591,15 @@
       margin-top: 4rem;
       padding: 2rem 0;
       text-align: center;
-      font-size: 0.875rem;
+      font-size: 1rem;
       font-weight: 400;
       color: var(--muted);
       border-top: 1px solid var(--silver-accent);
       letter-spacing: 0.01em;
+    }
+
+    footer p {
+      margin-bottom: 0.5rem;
     }
 
     @media screen and (max-width: 768px) {
@@ -586,8 +620,17 @@
         padding: 1.5rem 0;
       }
 
-      #greetings h2, #cv h2 {
-        font-size: 1.75rem;
+      #greetings, #cv {
+        padding: 1.5rem 0;
+      }
+
+      #greetings h2 {
+        font-size: 2rem;
+      }
+
+      #greetings p {
+        font-size: 1rem;
+        max-width: 90%;
       }
 
       .intro-brand h1 {
@@ -604,7 +647,7 @@
       }
 
       .project-title {
-        font-size: 1.25rem;
+        font-size: 1.5rem;
       }
 
       .project .muted, .project .coming-soon {
@@ -710,38 +753,31 @@
   <div id="container">
     <main>
       <section id="greetings" aria-labelledby="greetings-heading">
-        <h2 id="greetings-heading">Greetings</h2>
-        <p>Hey, I’m Rizky Riyadi, a Software Engineering student at Gunadarma University (3.68 GPA). I’m diving into microservices, REST APIs, and CI/CD pipelines to craft solid apps, and I’m stoked to keep leveling up!</p>
+        <h2 id="greetings-heading">Rizky Riyadi</h2>
+        <p>I build small tools with big impact — at least for me 😅</p>
       </section>
 
       <section id="projects" class="projects" aria-labelledby="projects-heading">
         <h2 id="projects-heading">Projects</h2>
-        <a href="https://github.com/rizkyriady16/node-boilerplate" target="_blank" class="project" role="article" aria-label="View Node.js Boilerplate project" onclick="console.log('Node.js project clicked')">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Node.js Boilerplate code editor" loading="lazy">
+        <a href="https://github.com/kampus-merdeka-standardization/boilerplate-node" target="_blank" class="project" role="article" aria-label="View Node.js Boilerplate project" onclick="console.log('Node.js project clicked')">
+          <img src="./boilerplate.png" onerror="this.src='/images/fallback.png'" alt="Node.js Boilerplate code editor" loading="lazy" class="h-24 w-36 object-cover rounded-md">
           <div>
             <div class="project-title">Node.js Boilerplate (Telkomsel)</div>
             <div class="muted">Exploring microservices with NestJS, gRPC, and TypeORM, including CI/CD and monitoring.</div>
           </div>
         </a>
         <a href="https://rizkyriyadi.github.io/weather-project/#/current-location" target="_blank" class="project" role="article" aria-label="View Dynamic Weather Insights project" onclick="console.log('Weather project clicked')">
-          <img src="https://images.unsplash.com/photo-1593443320739-6c91b6c1adef" alt="Dynamic Weather Insights app UI" loading="lazy">
+          <img src="./dynamic_weather.png" onerror="this.src='/images/fallback.png'" alt="Dynamic Weather Insights app UI" loading="lazy" class="h-24 w-36 object-cover rounded-md">
           <div>
             <div class="project-title">Dynamic Weather Insights</div>
             <div class="muted">A responsive weather website built to practice real-time data display.</div>
           </div>
         </a>
-        <a href="https://github.com/rizkyriady16/golang-crud-api" target="_blank" class="project" role="article" aria-label="View CRUD Golang REST API project" onclick="console.log('Golang project clicked')">
-          <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942e7" alt="CRUD Golang REST API terminal" loading="lazy">
+        <a href="https://github.com/rizkyriyadi/aqua-farm" target="_blank" class="project" role="article" aria-label="View CRUD Golang REST API project" onclick="console.log('Golang project clicked')">
+          <img src="./crud_golang.png" onerror="this.src='/images/fallback.png'" alt="CRUD Golang REST API terminal" loading="lazy" class="h-24 w-36 object-cover rounded-md">
           <div>
             <div class="project-title">CRUD Golang REST API</div>
             <div class="muted">A REST API in Golang with Gin, learning CRUD and database relationships.</div>
-          </div>
-        </a>
-        <a href="#" class="project no-link" role="article" aria-label="Admin Dashboard project (Coming Soon)">
-          <img src="https://images.unsplash.com/photo-1623479322729-28b25c16b011" alt="Admin Dashboard mockup" loading="lazy">
-          <div>
-            <div class="project-title">Admin Dashboard</div>
-            <div class="coming-soon">Working on a responsive dashboard with TypeScript and React.</div>
           </div>
         </a>
       </section>
@@ -749,18 +785,20 @@
       <section id="cv" aria-labelledby="cv-heading">
         <h2 id="cv-heading"><i class="fas fa-file-alt cv-icon" aria-hidden="true"></i> CV</h2>
         <div class="cv-container">
-          <p>Check out my CV for a peek at my skills and projects!</p>
-          <p class="cv-subtext muted">Feel free to reach out or grab it below.</p>
+          <p>Explore my skills in Node.js, NestJS, Golang, and microservices. Download or preview my CV below!</p>
+          <p class="cv-subtext muted">Feel free to reach out for more details.</p>
           <hr class="cv-divider">
           <div class="cv-actions">
             <a href="mailto:rizkyriady16@gmail.com" class="cv-button" aria-label="Send email to request CV" onclick="console.log('CV email request clicked')">Request via Email</a>
             <a href="/mohamadRizkyRIyadi_CV.pdf" download class="cv-button" aria-label="Download CV" onclick="console.log('CV download clicked')">Download CV</a>
+            <a href="https://drive.google.com/file/d/YOUR_FILE_ID/view" target="_blank" class="cv-button" aria-label="Preview CV" onclick="console.log('CV preview clicked')">Preview CV</a>
           </div>
         </div>
       </section>
 
       <footer role="contentinfo">
-        © 2025 Rizky Riyadi — All rights reserved. | <a href="mailto:rizkyriady16@gmail.com" aria-label="Contact via Email">Contact</a>
+        <p>🚀 Keep building. One line at a time.</p>
+        <p>© 2025 Rizky Riyadi — All rights reserved. | <a href="mailto:rizkyriady16@gmail.com" aria-label="Contact via Email">Contact</a></p>
       </footer>
     </main>
   </div>
@@ -777,6 +815,7 @@
 
     // Wait for DOM and GSAP to load
     document.addEventListener('DOMContentLoaded', () => {
+      console.log("Hi traveler 👋 Ready to explore the code? ✨");
       console.log("Script loaded. Browser:", navigator.userAgent);
 
       // Check GSAP availability
@@ -792,7 +831,7 @@
         }).catch(err => console.error("Font loading error:", err));
       }, "Font Loading Error");
 
-      // Toggle Dark Mode
+      // Toggle Dark Mode with localStorage
       function toggleDarkMode() {
         safeExecute(() => {
           console.log("Attempting to toggle dark mode");
@@ -801,11 +840,22 @@
           if (!checkbox) throw new Error("Dark toggle checkbox not found");
           body.classList.toggle('dark');
           checkbox.checked = body.classList.contains('dark');
+          localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
           console.log("Dark mode:", body.classList.contains('dark'), "Checkbox checked:", checkbox.checked);
           gsap.to('#dark-toggle', { scale: 1.1, duration: 0.2, ease: "power4.out" });
           gsap.to('#dark-toggle', { scale: 1, duration: 0.2, delay: 0.2 });
         }, "Dark Mode Toggle Error");
       }
+
+      // Initialize theme from localStorage
+      safeExecute(() => {
+        const savedTheme = localStorage.getItem('theme');
+        const checkbox = document.querySelector('#dark-toggle .checkbox');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.body.classList.add('dark');
+          checkbox.checked = true;
+        }
+      }, "Theme Initialization Error");
 
       // Dark toggle event listeners
       safeExecute(() => {
@@ -1039,14 +1089,14 @@
 
         gsap.from("#greetings h2", {
           opacity: 0,
-          y: 30,
+          scale: 0.98,
           duration: 0.6,
           ease: "power4.out",
           scrollTrigger: { trigger: "#greetings", start: "top 85%" }
         });
         gsap.from("#greetings p", {
           opacity: 0,
-          y: 30,
+          y: 15,
           duration: 0.6,
           ease: "power4.out",
           delay: 0.2,
@@ -1159,7 +1209,7 @@
       safeExecute(() => {
         setTimeout(() => {
           const container = document.getElementById('container');
-          const intro = document.getElementById('intro');a
+          const intro = document.getElementById('intro');
           if (container && intro) {
             container.style.opacity = '1';
             container.style.transform = 'translateY(0)';
