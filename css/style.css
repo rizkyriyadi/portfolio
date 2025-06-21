@@ -8,6 +8,7 @@
     --border-light: rgba(0, 0, 0, 0.05);
     --border-dark: rgba(255, 255, 255, 0.1);
     --primary-color: #5b21b6; /* Warna aksen baru untuk tombol/hover */
+    --link-hover-color: #8b5cf6; /* Aksen sedikit lebih terang */
 }
 
 * {
@@ -15,8 +16,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Space Grotesk', Arial, sans-serif;
-    /* Transisi global untuk properti yang umum berubah */
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body {
@@ -24,7 +24,7 @@ body {
     color: var(--text-light);
     min-height: 100vh;
     overflow-x: hidden;
-    transition: background 0.5s ease, color 0.5s ease; /* Transisi background/color lebih halus */
+    transition: background 0.5s ease, color 0.5s ease;
 }
 
 body.dark-mode {
@@ -41,11 +41,58 @@ body.dark-mode {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     z-index: 1000;
-    display: flex;
-    justify-content: space-between;
+    display: flex; /* Pastikan ini ada */
+    justify-content: space-between; /* Ini yang memisahkan elemen */
     align-items: center;
     border-bottom: 1px solid var(--border-light);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Sedikit bayangan untuk kedalaman */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.navbar-links {
+    display: flex; /* Agar link tetap horizontal */
+    align-items: center;
+    margin-left: auto; /* Mendorong links ke kanan, jika perlu (tergantung layout) */
+    /* Hapus margin-left yang ada di .navbar a jika sudah ada */
+}
+
+.navbar a {
+    /* ... CSS yang sudah ada ... */
+    margin-left: 2rem; /* Jarak antar link */
+}
+
+/* Khusus untuk tombol dark-toggle, mungkin perlu margin-left tambahan agar ada jarak dari link terakhir */
+.dark-toggle {
+    margin-left: 2rem; /* Beri jarak dari link terakhir */
+    /* ... CSS yang sudah ada ... */
+}
+
+/* Jika di mobile, ingin tombol di bawah link */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column; /* Ubah ke kolom */
+        align-items: flex-start; /* Elemen ke kiri */
+        padding: 1rem 1.5rem;
+    }
+
+    .navbar-links {
+        flex-direction: column; /* Link jadi vertikal */
+        align-items: flex-start;
+        width: 100%; /* Ambil lebar penuh */
+        margin-left: 0; /* Hapus margin otomatis */
+        margin-top: 1rem; /* Jarak dari logo */
+    }
+
+    .navbar a {
+        margin-left: 0;
+        margin-bottom: 0.5rem; /* Jarak antar link vertikal */
+    }
+
+    .dark-toggle {
+        position: absolute; /* Posisikan absolut di kanan atas mobile */
+        top: 1rem;
+        right: 1.5rem;
+        margin-left: 0; /* Hapus margin sebelumnya */
+    }
 }
 
 .dark-mode .navbar {
@@ -60,7 +107,7 @@ body.dark-mode {
     font-size: 1rem;
     font-weight: 400;
     margin-left: 2rem;
-    position: relative; /* Untuk underline animasi */
+    position: relative;
     transition: color 0.3s ease, transform 0.3s ease;
     letter-spacing: 0.02em;
 }
@@ -80,33 +127,43 @@ body.dark-mode {
     transition: width 0.3s ease-out;
 }
 
-.navbar a:hover::after {
+.navbar a:hover::after,
+.navbar a.active::after { /* Active state for Navbar */
     width: 100%;
 }
 
 .navbar a:hover {
-    color: var(--primary-color); /* Warna hover lebih menonjol */
+    color: var(--link-hover-color);
     transform: translateY(-2px);
 }
 
 .dark-mode .navbar a:hover {
+    color: var(--link-hover-color);
+}
+
+.navbar a.active { /* Active state for Navbar */
+    color: var(--primary-color);
+    font-weight: 700;
+}
+.dark-mode .navbar a.active {
     color: var(--primary-color);
 }
+
 
 .dark-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px; /* Sedikit lebih lebar */
-    height: 26px; /* Sedikit lebih tinggi */
+    width: 44px;
+    height: 26px;
     background: #e0e0e0;
-    border-radius: 13px; /* Sesuai lebar/2 */
+    border-radius: 13px;
     border: none;
     cursor: pointer;
     transition: background 0.3s ease;
     padding: 0;
     position: relative;
-    overflow: hidden; /* Untuk efek slide svg */
+    overflow: hidden;
 }
 
 .dark-mode .dark-toggle {
@@ -114,17 +171,17 @@ body.dark-mode {
 }
 
 .dark-toggle svg {
-    width: 18px; /* Ukuran ikon lebih besar */
+    width: 18px;
     height: 18px;
     fill: #333;
     position: absolute;
-    left: 4px; /* Posisi awal untuk ikon terang */
+    left: 4px;
     transition: left 0.3s ease, fill 0.3s ease, transform 0.3s ease;
 }
 
 .dark-mode .dark-toggle svg {
     fill: #f1f1f1;
-    left: calc(100% - 22px); /* Posisi akhir untuk ikon gelap */
+    left: calc(100% - 22px);
     transform: rotate(180deg);
 }
 
@@ -136,9 +193,23 @@ body.dark-mode {
     background: #4a4a4a;
 }
 
+/* Hu Tao Ghost */
+.hutao-ghost {
+    position: fixed;
+    bottom: 20px; /* Sedikit lebih ke atas dari bawah */
+    right: 20px;  /* Sedikit lebih ke kiri dari kanan */
+    width: 60px;  /* Ukuran sedikit lebih besar */
+    height: 60px; /* Ukuran sedikit lebih besar */
+    background: url('../assets/HuTaoSilhouette.jpg') no-repeat center/cover;
+    opacity: 0.15; /* Meningkatkan opacity agar lebih terlihat */
+    pointer-events: none; /* Tetap tidak bisa diinteraksi */
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
 
-
-
+body.dark-mode .hutao-ghost {
+    opacity: 0.25; /* Mungkin sedikit lebih terlihat di dark mode karena kontras */
+}
 
 /* Hero Section */
 .hero {
@@ -162,7 +233,7 @@ body.dark-mode {
     letter-spacing: -0.05em;
     color: var(--text-light);
     margin-bottom: 1rem;
-    line-height: 1.1; /* Sedikit penyesuaian */
+    line-height: 1.1;
 }
 
 .dark-mode .hero h1 {
@@ -170,7 +241,7 @@ body.dark-mode {
 }
 
 .hero p {
-    font-size: 1.8rem; /* Ukuran font lebih besar */
+    font-size: 1.8rem;
     font-weight: 300;
     color: #333333;
     letter-spacing: 0.03em;
@@ -180,30 +251,124 @@ body.dark-mode {
     color: #cccccc;
 }
 
-/* Projects Section */
-.projects {
+/* Global Section Styles (untuk Projects, Experience, Contact) */
+.experience, .projects, .contact {
     padding: 6rem 3rem;
-    max-width: 1200px;
     margin: 0 auto;
     min-height: 50vh;
 }
 
-.projects h2 {
-    font-size: 4rem; /* Ukuran font lebih besar */
+.experience h2, .projects h2, .contact h2 {
+    font-size: 4rem;
     font-weight: 700;
-    letter-spacing: -0.04em; /* Lebih rapat */
+    letter-spacing: -0.04em;
     color: var(--text-light);
     text-align: center;
     margin-bottom: 3rem;
 }
 
-.dark-mode .projects h2 {
+.dark-mode .experience h2, .dark-mode .projects h2, .dark-mode .contact h2 {
     color: var(--text-dark);
+}
+
+/* Experience Section */
+.experience {
+    max-width: 1000px;
+}
+
+.experience-item {
+    background: var(--card-bg-light);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .experience-item {
+    background: var(--card-bg-dark);
+    border: 1px solid var(--border-dark);
+}
+
+.experience-item:hover { /* Efek hover juga untuk experience item */
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode .experience-item:hover {
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+}
+
+.experience-item h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.dark-mode .experience-item h3 {
+    color: var(--text-dark);
+}
+
+.experience-item h4 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: #666;
+    margin-bottom: 0.8rem;
+}
+
+.dark-mode .experience-item h4 {
+    color: #bbb;
+}
+
+.experience-item .date {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #888;
+    margin-bottom: 1.5rem;
+}
+
+.dark-mode .experience-item .date {
+    color: #999;
+}
+
+.experience-item ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.experience-item ul li {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: #4a4a4a;
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.dark-mode .experience-item ul li {
+    color: #aaaaaa;
+}
+
+.experience-item ul li::before {
+    content: '•';
+    color: var(--primary-color);
+    font-size: 1.2em;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Projects Section */
+.projects {
+    max-width: 1200px;
 }
 
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Lebih responsif */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
 
@@ -222,8 +387,8 @@ body.dark-mode {
 }
 
 .project-card:hover {
-    transform: translateY(-8px); /* Efek hover lebih kentara */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Bayangan lebih dalam */
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .dark-mode .project-card:hover {
@@ -231,7 +396,7 @@ body.dark-mode {
 }
 
 .project-card h3 {
-    font-size: 2.2rem; /* Ukuran font lebih besar */
+    font-size: 2.2rem;
     font-weight: 700;
     color: var(--text-light);
     margin-bottom: 0.8rem;
@@ -243,10 +408,10 @@ body.dark-mode {
 }
 
 .project-card p {
-    font-size: 1.05rem; /* Sedikit lebih besar */
+    font-size: 1.05rem;
     font-weight: 300;
     color: #4a4a4a;
-    line-height: 1.7; /* Line height lebih nyaman dibaca */
+    line-height: 1.7;
     margin-bottom: 1.5rem;
 }
 
@@ -257,16 +422,16 @@ body.dark-mode {
 .badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem; /* Jarak antar badge */
+    gap: 0.6rem;
     margin-bottom: 1.5rem;
 }
 
 .badge {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem; /* Ukuran badge sedikit lebih besar */
+    font-size: 0.9rem;
     color: #333333;
     background: #f0f0f0;
-    padding: 0.5rem 1.1rem; /* Padding lebih banyak */
+    padding: 0.5rem 1.1rem;
     border-radius: 2rem;
     font-weight: 400;
     transition: background 0.3s ease, color 0.3s ease;
@@ -278,7 +443,7 @@ body.dark-mode {
 }
 
 .badge:hover {
-    background: var(--primary-color); /* Warna hover badge */
+    background: var(--primary-color);
     color: white;
 }
 
@@ -291,11 +456,11 @@ body.dark-mode {
     display: inline-flex;
     align-items: center;
     text-decoration: none;
-    font-size: 1.05rem; /* Ukuran font tombol */
+    font-size: 1.05rem;
     color: #ffffff;
     background: #000000;
-    padding: 0.9rem 1.8rem; /* Padding lebih besar */
-    border-radius: 0.6rem; /* Radius lebih lembut */
+    padding: 0.9rem 1.8rem;
+    border-radius: 0.6rem;
     transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -304,8 +469,8 @@ body.dark-mode {
 }
 
 .link-button:hover {
-    background: var(--primary-color); /* Warna hover yang cerah */
-    transform: translateY(-3px); /* Efek angkat lebih tinggi */
+    background: var(--primary-color);
+    transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -316,40 +481,25 @@ body.dark-mode {
 
 .link-button::after {
     content: '→';
-    margin-left: 0.8rem; /* Jarak panah lebih jauh */
-    font-size: 1.3rem; /* Ukuran panah lebih besar */
+    margin-left: 0.8rem;
+    font-size: 1.3rem;
     transition: transform 0.3s ease;
 }
 
 .link-button:hover::after {
-    transform: translateX(6px); /* Panah bergerak lebih jauh */
+    transform: translateX(6px);
 }
 
 /* Contact Section */
 .contact {
-    padding: 6rem 3rem;
     max-width: 1200px;
-    margin: 0 auto;
     text-align: center;
-    min-height: 50vh;
-}
-
-.contact h2 {
-    font-size: 4rem; /* Ukuran font lebih besar */
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    color: var(--text-light);
-    margin-bottom: 2rem;
-}
-
-.dark-mode .contact h2 {
-    color: var(--text-dark);
 }
 
 .contact-links {
     display: flex;
     justify-content: center;
-    gap: 2rem; /* Jarak antar tombol kontak */
+    gap: 2rem;
     flex-wrap: wrap;
 }
 
@@ -370,7 +520,7 @@ body.dark-mode {
 }
 
 .contact-button:hover {
-    background: var(--primary-color); /* Warna hover yang cerah */
+    background: var(--primary-color);
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
@@ -383,35 +533,39 @@ body.dark-mode {
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero h1 {
-        font-size: 3.8rem; /* Ukuran font lebih proporsional */
+        font-size: 3.8rem;
     }
     .hero p {
         font-size: 1.4rem;
     }
-    .projects, .contact {
+    .experience, .projects, .contact {
         padding: 4rem 2rem;
     }
-    .projects h2, .contact h2 {
+    .experience h2, .projects h2, .contact h2 {
         font-size: 2.8rem;
     }
-    .project-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-    .project-card h3 {
+    .experience-item h3, .project-card h3 {
         font-size: 2rem;
     }
-    .project-card p {
+    .experience-item h4 {
+        font-size: 1.2rem;
+    }
+    .experience-item ul li, .project-card p {
         font-size: 1rem;
     }
     .navbar {
-        padding: 1rem 1.5rem; /* Padding navbar lebih kecil */
+        padding: 1rem 1.5rem;
     }
     .navbar a {
         margin-left: 1rem;
         font-size: 0.85rem;
     }
-    
+    .hutao-ghost {
+        width: 45px;
+        height: 45px;
+        bottom: 15px;
+        right: 15px;
+    }
     .dark-toggle {
         width: 38px;
         height: 22px;
@@ -432,7 +586,7 @@ body.dark-mode {
     .hero p {
         font-size: 1.2rem;
     }
-    .projects h2, .contact h2 {
+    .experience h2, .projects h2, .contact h2 {
         font-size: 2.2rem;
     }
     .navbar {
@@ -446,41 +600,7 @@ body.dark-mode {
         font-size: 0.95rem;
         padding: 0.7rem 1.4rem;
     }
-    .project-card {
+    .project-card, .experience-item {
         padding: 1.8rem;
     }
-}
-
-/* Navbar aktif state */
-.navbar a.active {
-    color: var(--primary-color);
-    font-weight: 700;
-}
-
-.navbar a.active::after {
-    width: 100%;
-    background-color: var(--primary-color);
-}
-
-/* Example: Project card border animation on hover */
-.project-card {
-    position: relative;
-    overflow: hidden; /* Penting untuk animasi border */
-}
-
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 1rem;
-    border: 2px solid transparent;
-    transition: border-color 0.3s ease;
-    pointer-events: none; /* Pastikan tidak mengganggu klik */
-}
-
-.project-card:hover::before {
-    border-color: var(--primary-color); /* Border berwarna saat hover */
 }
