@@ -1,6 +1,6 @@
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
-gsap.registerPlugin(ScrollToPlugin); // Penting: ScrollToPlugin harus didaftarkan!
+gsap.registerPlugin(ScrollToPlugin);
 
 // Function to load HTML components
 async function loadComponent(url, containerId) {
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load all components asynchronously
     const navbarLoaded = await loadComponent('components/navbar.html', 'navbar-container');
     await loadComponent('components/hero.html', 'hero-container');
-    await loadComponent('components/experience.html', 'experience-container'); // Muat Experience section
+    await loadComponent('components/experience.html', 'experience-container');
     await loadComponent('components/projects.html', 'projects-container');
     await loadComponent('components/contact.html', 'contact-container');
 
@@ -150,6 +150,44 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             console.warn('Theme toggle button not found after component load. Check components/navbar.html');
         }
+
+        // Hamburger Menu Logic (Tambahkan ini)
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.navbar-links');
+
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('open');
+                // Menggunakan display: flex saat dibuka agar link menumpuk vertikal
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+
+                // Tambahan: Tutup menu saat link diklik (opsional)
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= 768) { // Hanya untuk mobile
+                            menuToggle.classList.remove('open');
+                            navLinks.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Tutup menu jika ukuran layar berubah dari mobile ke desktop
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) { // Jika kembali ke desktop view
+                    menuToggle.classList.remove('open');
+                    navLinks.style.display = 'flex'; // Pastikan display flex untuk desktop
+                } else {
+                    // Jika tetap di mobile view, pastikan navbar-links tetap disembunyikan jika tidak open
+                    if (!menuToggle.classList.contains('open')) {
+                         navLinks.style.display = 'none';
+                    }
+                }
+            });
+
+        } else {
+            console.warn('Hamburger menu toggle or nav links not found.');
+        }
     }
 
     // Initialize GSAP animations after all components are loaded and rendered
@@ -166,7 +204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     duration: 1,
                     scrollTo: { y: targetElement, offsetY: 70 }, // offset for fixed navbar
                     ease: 'power3.out',
-                    onComplete: () => { // Update active class after scroll completes
+                    onComplete: () => {
                         updateActiveNavLink();
                     }
                 });

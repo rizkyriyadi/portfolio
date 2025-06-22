@@ -41,58 +41,11 @@ body.dark-mode {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     z-index: 1000;
-    display: flex; /* Pastikan ini ada */
-    justify-content: space-between; /* Ini yang memisahkan elemen */
+    display: flex;
+    justify-content: space-between; /* Untuk memisahkan logo, link, dan toggle */
     align-items: center;
     border-bottom: 1px solid var(--border-light);
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.navbar-links {
-    display: flex; /* Agar link tetap horizontal */
-    align-items: center;
-    margin-left: auto; /* Mendorong links ke kanan, jika perlu (tergantung layout) */
-    /* Hapus margin-left yang ada di .navbar a jika sudah ada */
-}
-
-.navbar a {
-    /* ... CSS yang sudah ada ... */
-    margin-left: 2rem; /* Jarak antar link */
-}
-
-/* Khusus untuk tombol dark-toggle, mungkin perlu margin-left tambahan agar ada jarak dari link terakhir */
-.dark-toggle {
-    margin-left: 2rem; /* Beri jarak dari link terakhir */
-    /* ... CSS yang sudah ada ... */
-}
-
-/* Jika di mobile, ingin tombol di bawah link */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column; /* Ubah ke kolom */
-        align-items: flex-start; /* Elemen ke kiri */
-        padding: 1rem 1.5rem;
-    }
-
-    .navbar-links {
-        flex-direction: column; /* Link jadi vertikal */
-        align-items: flex-start;
-        width: 100%; /* Ambil lebar penuh */
-        margin-left: 0; /* Hapus margin otomatis */
-        margin-top: 1rem; /* Jarak dari logo */
-    }
-
-    .navbar a {
-        margin-left: 0;
-        margin-bottom: 0.5rem; /* Jarak antar link vertikal */
-    }
-
-    .dark-toggle {
-        position: absolute; /* Posisikan absolut di kanan atas mobile */
-        top: 1rem;
-        right: 1.5rem;
-        margin-left: 0; /* Hapus margin sebelumnya */
-    }
 }
 
 .dark-mode .navbar {
@@ -101,12 +54,38 @@ body.dark-mode {
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
+.navbar-logo a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-size: 1.5rem; /* Ukuran font default untuk logo teks, jika pakai */
+    font-weight: 700;
+}
+.dark-mode .navbar-logo a {
+    color: var(--text-dark);
+}
+
+.site-logo { /* CSS untuk gambar logo */
+    height: 40px;
+    width: auto;
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.site-logo:hover {
+    transform: scale(1.05);
+}
+
+.navbar-links {
+    display: flex; /* Link navigasi defaultnya horizontal */
+    align-items: center;
+}
+
 .navbar a {
     color: var(--text-light);
     text-decoration: none;
     font-size: 1rem;
     font-weight: 400;
-    margin-left: 2rem;
+    margin-left: 2rem; /* Jarak antar link */
     position: relative;
     transition: color 0.3s ease, transform 0.3s ease;
     letter-spacing: 0.02em;
@@ -128,7 +107,7 @@ body.dark-mode {
 }
 
 .navbar a:hover::after,
-.navbar a.active::after { /* Active state for Navbar */
+.navbar a.active::after {
     width: 100%;
 }
 
@@ -141,14 +120,13 @@ body.dark-mode {
     color: var(--link-hover-color);
 }
 
-.navbar a.active { /* Active state for Navbar */
+.navbar a.active {
     color: var(--primary-color);
     font-weight: 700;
 }
 .dark-mode .navbar a.active {
     color: var(--primary-color);
 }
-
 
 .dark-toggle {
     display: flex;
@@ -164,6 +142,7 @@ body.dark-mode {
     padding: 0;
     position: relative;
     overflow: hidden;
+    margin-left: 2rem; /* Jarak dari link terakhir */
 }
 
 .dark-mode .dark-toggle {
@@ -196,19 +175,19 @@ body.dark-mode {
 /* Hu Tao Ghost */
 .hutao-ghost {
     position: fixed;
-    bottom: 20px; /* Sedikit lebih ke atas dari bawah */
-    right: 20px;  /* Sedikit lebih ke kiri dari kanan */
-    width: 60px;  /* Ukuran sedikit lebih besar */
-    height: 60px; /* Ukuran sedikit lebih besar */
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
     background: url('../assets/HuTaoSilhouette.jpg') no-repeat center/cover;
-    opacity: 0.15; /* Meningkatkan opacity agar lebih terlihat */
-    pointer-events: none; /* Tetap tidak bisa diinteraksi */
+    opacity: 0.15;
+    pointer-events: none;
     z-index: 9999;
     transition: opacity 0.5s ease;
 }
 
 body.dark-mode .hutao-ghost {
-    opacity: 0.25; /* Mungkin sedikit lebih terlihat di dark mode karena kontras */
+    opacity: 0.25;
 }
 
 /* Hero Section */
@@ -291,7 +270,7 @@ body.dark-mode .hutao-ghost {
     border: 1px solid var(--border-dark);
 }
 
-.experience-item:hover { /* Efek hover juga untuk experience item */
+.experience-item:hover {
     transform: translateY(-8px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
@@ -553,29 +532,114 @@ body.dark-mode .hutao-ghost {
     .experience-item ul li, .project-card p {
         font-size: 1rem;
     }
+
+    /* --- Navbar Mobile Specifics --- */
     .navbar {
+        flex-direction: row; /* Tetap baris untuk logo dan toggle di kanan */
+        justify-content: space-between; /* Pisahkan logo dan toggle */
         padding: 1rem 1.5rem;
+        position: relative; /* Penting untuk posisi absolut tombol toggle */
     }
-    .navbar a {
-        margin-left: 1rem;
-        font-size: 0.85rem;
+
+    .navbar-logo {
+        flex-grow: 1; /* Biarkan logo mengambil ruang yang tersedia */
     }
+
+    .site-logo {
+        height: 35px; /* Ukuran logo lebih kecil di mobile */
+    }
+
+    /* Sembunyikan link navigasi di mobile secara default */
+    .navbar-links {
+        display: none; /* Akan di-toggle dengan JavaScript */
+        flex-direction: column; /* Link akan menumpuk vertikal saat terlihat */
+        position: absolute; /* Posisikan absolut di bawah navbar utama */
+        top: 100%; /* Mulai di bawah navbar */
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.98); /* Background untuk menu overlay */
+        border-top: 1px solid var(--border-light);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        padding: 1.5rem;
+        z-index: 999;
+    }
+
+    .dark-mode .navbar-links {
+        background: rgba(20, 20, 20, 0.98);
+        border-top: 1px solid var(--border-dark);
+        box-shadow: 0 8px 16px rgba(255,255,255,0.1);
+    }
+
+    /* Gaya untuk link di menu mobile */
+    .navbar-links a {
+        margin: 0; /* Hapus margin horizontal default */
+        padding: 0.8rem 0; /* Tambahkan padding vertikal */
+        width: 100%; /* Ambil lebar penuh */
+        text-align: center; /* Teks di tengah */
+        border-bottom: 1px solid rgba(0,0,0,0.05); /* Separator antar link */
+    }
+    .dark-mode .navbar-links a {
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .navbar-links a:last-child {
+        border-bottom: none; /* Hapus border di link terakhir */
+    }
+
+    /* Posisikan tombol dark mode agar tetap di kanan atas */
+    .dark-toggle {
+        margin-left: 0; /* Hapus margin kiri yang mendorongnya */
+        /* Anda bisa biarkan posisi defaultnya atau atur ulang jika perlu */
+    }
+
+    /* Hamburger Menu Icon (akan ditambahkan di HTML dan di-toggle via JS) */
+    .menu-toggle {
+        display: block; /* Tampilkan hanya di mobile */
+        width: 30px;
+        height: 20px;
+        position: relative;
+        cursor: pointer;
+        margin-left: 1rem; /* Jarak dari logo */
+        z-index: 1001; /* Pastikan di atas overlay menu */
+        border: none;
+        background: none;
+        padding: 0;
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: var(--text-light);
+        border-radius: 2px;
+        position: absolute;
+        left: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .dark-mode .menu-toggle span {
+        background: var(--text-dark);
+    }
+
+    .menu-toggle span:nth-child(1) { top: 0; }
+    .menu-toggle span:nth-child(2) { top: 9px; }
+    .menu-toggle span:nth-child(3) { top: 18px; }
+
+    /* Animasi silang saat menu terbuka */
+    .menu-toggle.open span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+    .menu-toggle.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-toggle.open span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* Hu Tao Ghost Responsive */
     .hutao-ghost {
         width: 45px;
         height: 45px;
         bottom: 15px;
         right: 15px;
-    }
-    .dark-toggle {
-        width: 38px;
-        height: 22px;
-    }
-    .dark-toggle svg {
-        width: 16px;
-        height: 16px;
-    }
-    .dark-mode .dark-toggle svg {
-        left: calc(100% - 19px);
     }
 }
 
@@ -592,10 +656,28 @@ body.dark-mode .hutao-ghost {
     .navbar {
         padding: 0.8rem 1rem;
     }
-    .navbar a {
-        margin-left: 0.8rem;
-        font-size: 0.8rem;
+    .site-logo {
+        height: 30px;
     }
+    .dark-toggle {
+        width: 38px;
+        height: 22px;
+    }
+    .dark-toggle svg {
+        width: 16px;
+        height: 16px;
+    }
+    .dark-mode .dark-toggle svg {
+        left: calc(100% - 19px);
+    }
+    .menu-toggle {
+        width: 25px;
+        height: 18px;
+    }
+    .menu-toggle span:nth-child(2) { top: 8px; }
+    .menu-toggle span:nth-child(3) { top: 16px; }
+    .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
     .link-button, .contact-button {
         font-size: 0.95rem;
         padding: 0.7rem 1.4rem;
